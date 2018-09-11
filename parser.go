@@ -5,11 +5,20 @@ import (
 	"net/mail"
 	"os"
 
+	"flag"
 	"github.com/jhillyerd/go.enmime"
 )
 
 func main() {
-	file, _ := os.Open("/Users/rbd/Temp/7ccaa5be-acf7-45c7-a289-c6bd2cb0492a.eml")
+	// Command line arg
+	filePath := flag.String("file", "", "path to .eml file")
+	// Flag parsing
+	flag.Parse()
+	// Checking file flag
+	if *filePath == "" {
+		panic("You should provide path to .eml file by using -file flag")
+	}
+	file, _ := os.Open(*filePath)
 	msg, _ := mail.ReadMessage(file)     // Read email using Go's net/mail
 	mime, _ := enmime.ParseMIMEBody(msg) // Parse message body with enmime
 
@@ -26,10 +35,10 @@ func main() {
 
 	fmt.Printf("Text Body: %s\n", mime.Text)
 
-	// The HTML body is stored in mime.Html
-	fmt.Printf("HTML Body: %v chars\n", len(mime.Html))
+	// The HTML body is stored in mime.HTML
+	fmt.Printf("HTML Body: %v chars\n", len(mime.HTML))
 
-	// mime.Inlines is a slice of inlined attacments
+	// mime.Inlines is a slice of inlined attachments
 	fmt.Printf("Inlines: %v\n", len(mime.Inlines))
 
 	// mime.Attachments contains the non-inline attachments
