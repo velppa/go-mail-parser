@@ -1,3 +1,6 @@
-# Go Mail parser example
-
-
+# Go Mail Parser
+A very simple command line tool for checking .eml files
+#### Usage
+`gomailparser --file filename.eml`  
+or  
+`gomailparser -f filename.eml`  
